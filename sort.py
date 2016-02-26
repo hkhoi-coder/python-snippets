@@ -63,27 +63,39 @@ def merge(master, sub0, sub1):
 				master[i] = sub1[i1]
 				i1 += 1
 
-def quick_sort_impl(arr, left, right):
-	if left >= right: return
+def quicksort(a):
+	__partition(a, 0, len(a) - 1)
 
-	pivot = arr[(left + right) / 2]
-	iLeft = left
-	iRight = right
+def __partition(a, left, right):
+	if left >= right:
+		return
 
-	while iLeft < iRight and arr[iLeft] != arr[iRight]:
-		while arr[iLeft] < pivot: iLeft += 1
-		while arr[iRight] > pivot: iRight -= 1
-		if iLeft < iRight:
-			temp = arr[iLeft]
-			arr[iLeft] = arr[iRight]
-			arr[iRight] = temp
-	
-	quick_sort_impl(arr, left, iLeft)
-	quick_sort_impl(arr, iLeft + 1, right)
+	i = left + 1
+	j = right
+	pivot = a[left]
 
-def quick_sort(arr):
-	quick_sort_impl(arr, 0, len(arr)- 1)
+	isOK = False
+
+	while not isOK:
+		while i < right and a[i] <= pivot:
+			i += 1
+		while j > left and a[j] > pivot:
+			j -= 1
+		if i < j:
+			a[i], a[j] = a[j], a[i]
+			i += 1
+			j -= 1
+		else:
+			a[j], a[left] = a[left], a[j]
+			isOK = True
+
+	__partition(a, left, j - 1)
+	__partition(a, j + 1, right)
+
+a = [76,194,457,146,75,413,61,751,974,67,168,716,139,87,597,814,69,561,471,367,17,98,65]
+quicksort(a)
+print a
 
 arr = [62,58,576,428,7568,74,6,857,842,67,5,8263,45,46,24,378,5824,368]
-selection_sort(arr)
+quicksort(arr)
 print is_increasing(arr)
